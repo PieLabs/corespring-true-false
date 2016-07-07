@@ -8,7 +8,8 @@
     "paper-radio-button": "PolymerElements/paper-radio-button#^1.2.0",
     "webcomponentsjs": "~0.7.3",
     "lodash": "^4.7.0",
-    "corespring-show-correct-answer-toggle": "git@bitbucket.org:pielibs/corespring-show-correct-answer-toggle.git"
+    "corespring-show-correct-answer-toggle": "git@bitbucket.org:pielibs/corespring-show-correct-answer-toggle.git",
+    "paper-styles": "PolymerElements/paper-styles#^1.1.4"
   },
   "devDependencies": {
     "iron-component-page": "PolymerElements/iron-component-page#^1.0.0",

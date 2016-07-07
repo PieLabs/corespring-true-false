@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html" />
+<!--<link rel="import" href="../paper-styles/paper-styles.html" />-->
+<link rel="import" href="../paper-styles/typography.html" />
 <link rel="import" href="../paper-radio-button/paper-radio-button.html" />
 <link rel="import" href="../corespring-show-correct-answer-toggle/corespring-show-correct-answer-toggle.html" />
 <!-- 
@@ -9,6 +11,13 @@
 <dom-module id="corespring-true-false">
   <template>
     <style>
+
+    :host{
+      @apply(--paper-font-common-base);
+    }
+    /*:host span {
+      @apply(--paper-font-body2);
+    }*/
 
     :host paper-radio-button {
       padding-left: 10px;
@@ -39,11 +48,12 @@
       vertical-align: middle;
       padding-left: 10px;
       --show-correct-answer-height: 25px;
+      @apply(--paper-font-common-base);
     }
 
     </style>
     <div class="holder">
-      <span>{{state.model.prompt}}</span>
+      <span>{{state.prompt}}</span>
       <paper-radio-button 
         id="true-button"
         on-change="_onTrueChanged"
@@ -78,16 +88,14 @@
        * {
        *   //are the radio buttons disabled
        *   disabled: true|false,
-       *   model: {
-       *     //the prompt
-       *     prompt: '...'
-       *   },
+       *   //the prompt
+       *   prompt: '...',
        *   //if present will show the 'show correct answer' button
        *   correctResponse: { value: true|false }
        * }
        * ```
        */
-      state: {type: Object, value: { model: {}}, observer: '_onStateChanged'},
+      state: {type: Object, value: {}, observer: '_onStateChanged'},
       /**
        * A user's interaction with the component.
        */

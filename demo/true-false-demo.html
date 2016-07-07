@@ -1,0 +1,46 @@
+<link rel="import" href="../corespring-true-false.html" />
+
+<dom-module is="true-false-demo">
+
+  <template>
+    <style>
+
+      pre{
+        background-color: white;
+        min-height: 100px;
+        margin: 5px;
+        padding: 5px;
+      }
+      td{
+        vertical-align: top;
+      }
+    </style>
+    <hr/>
+    <corespring-true-false session="{{session}}" state="{{state}}"></corespring-true-false>
+    <table>
+      <tr>
+        <th>session</th>
+        <th>state</th>
+      </tr>
+      <tr>
+        <td><pre id="sessionRaw"></pre></td>
+        <td><pre id="stateRaw"></pre></td>
+      </tr>
+    </table>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: 'true-false-demo',
+    properties: {
+      session: {type: Object, observer: 'onSession'},
+      state: {type:Object, observer: 'onState'}
+    },
+    onSession: function(n){
+      this.$.sessionRaw.innerHTML = JSON.stringify(n, null, '  ');
+    }, 
+    onState: function(n){
+      this.$.stateRaw.innerHTML = JSON.stringify(n, null, '  ');
+    },
+  })
+</script>

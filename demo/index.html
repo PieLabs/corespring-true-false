@@ -1,7 +1,7 @@
 <html>
 
 <head>
-  <link rel="import" href="../corespring-true-false.html" />
+  <link rel="import" href="./true-false-demo.html" />
 
 
   <script>
@@ -12,96 +12,66 @@
         el.session = session || {};
       }
 
-
-
       document.addEventListener('DOMContentLoaded', function(){
 
-        function logSessions(){
-          document.querySelectorAll('corespring-true-false').forEach(function(e){
-            console.log(e.attributes.getNamedItem('id').value, e.session);
-          });
-          setTimeout(logSessions, 5000) ; 
-        }
-
         set('#zero', {
-          model: {
-            prompt: 'Active'
-          },
+            prompt: 'This is a prompt...'
         }, {selected: null});
 
         set('#one', {
-          model: {
-            prompt: 'Active, true'
-          },
+          prompt: 'This is a prompt...'
         }, {selected: true});
       
         set('#two', {
-            model: {
-              prompt: 'Active, false'
-            },
+            prompt: 'This is a prompt...'
           }, {selected: false});
         
         set('#three', {
-            model: {
-              prompt: 'disabled, true, correct'
-            },
+            prompt: 'This is a prompt...',
             disabled: true,
             correctness: 'correct',
           }, {selected: true});
         
         set('#four', {
-            model: {
-              prompt: 'disabled, true, incorrect'
-            },
+            prompt: 'This is a prompt...',
             disabled: true,
             correctness: 'incorrect',
           }, {selected: true});
         
         
         set('#five', {
-            model: {
-              prompt: 'disabled, false, correct'
-            },
+            prompt: 'This is a prompt...',
             disabled: true,
             correctness: 'correct',
           }, {selected: false});
         
         set('#six', {
-            model: {
-              prompt: 'disabled, false, incorrect'
-            },
+            prompt: 'This is a prompt...',
             disabled: true,
             correctness: 'incorrect',
           }, {selected: false});
         
         set('#seven', {
-            model: {
-              prompt: 'disabled, false, incorrect, with correct response'
-            },
+            prompt: 'This is a prompt...',
             correctResponse: {
               value: true
             },
             disabled: true,
             correctness: 'incorrect',
           }, {selected: false});
-
-          logSessions();
-
         });
-
-
       </script>
 </head>
 
 <body>
-  <corespring-true-false id="zero"></corespring-true-false>
-  <corespring-true-false id="one"></corespring-true-false>
-  <corespring-true-false id="two"></corespring-true-false>
-  <corespring-true-false id="three"></corespring-true-false>
-  <corespring-true-false id="four"></corespring-true-false>
-  <corespring-true-false id="five"></corespring-true-false>
-  <corespring-true-false id="six"></corespring-true-false>
-  <corespring-true-false id="seven"></corespring-true-false>
+  <true-false-demo id="zero"></true-false-demo>
+  <true-false-demo id="one"></true-false-demo>
+  <true-false-demo id="two"></true-false-demo>
+  <true-false-demo id="three"></true-false-demo>
+  <true-false-demo id="four"></true-false-demo>
+  <true-false-demo id="five"></true-false-demo>
+  <true-false-demo id="six"></true-false-demo>
+  <true-false-demo id="seven"></true-false-demo>
 </body>
 
 </html>
