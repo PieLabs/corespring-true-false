@@ -1,12 +1,10 @@
 <link rel="import" href="../polymer/polymer.html" />
-<link rel="import" href="../paper-radio-group/paper-radio-group.html" />
 <link rel="import" href="../paper-radio-button/paper-radio-button.html" />
 <link rel="import" href="../corespring-show-correct-answer-toggle/corespring-show-correct-answer-toggle.html" />
 <!-- 
-`corespring-true-false` is an experimental type of element.
+`corespring-true-false` is a component that contains a prompt + 2 radio buttons: true and false. 
 
-It's '
-
+@demo demo/index.html
 -->
 <dom-module id="corespring-true-false">
   <template>
@@ -48,21 +46,21 @@ It's '
       <span>{{state.model.prompt}}</span>
       <paper-radio-button 
         id="true-button"
-        on-change="onTrueChanged"
-        class$="{{trueClass(viewModel.selected, viewModel.correctness)}}" 
+        on-change="_onTrueChanged"
+        class$="{{_trueClass(_viewModel.selected, _viewModel.correctness)}}" 
         disabled="{{state.disabled}}"
         noink 
         >true</paper-radio-button>
       <paper-radio-button 
         id="false-button"
         disabled="{{state.disabled}}"
-        class$="{{falseClass(viewModel.selected, viewModel.correctness)}}" 
-        on-change="onFalseChanged"
+        class$="{{_falseClass(_viewModel.selected, _viewModel.correctness)}}" 
+        on-change="_onFalseChanged"
         noink 
         name="false" 
       >false</paper-radio-button>
       <template is="dom-if" if="{{state.correctResponse}}">
-          <corespring-show-correct-answer-toggle on-toggle="toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
+          <corespring-show-correct-answer-toggle on-toggle="_toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
       </template>
     </div>
   </template>
@@ -72,40 +70,59 @@ It's '
   Polymer({
     is: 'corespring-true-false',
     properties: {
-      state: {type: Object, value: { model: {}}, observer: 'onStateChanged'},
-      session: {type:Object, value: {}, observer: 'onSessionChanged'},
+
+      /**
+       * The state of the component.
+       * 
+       * ```
+       * {
+       *   //are the radio buttons disabled
+       *   disabled: true|false,
+       *   model: {
+       *     //the prompt
+       *     prompt: '...'
+       *   },
+       *   //if present will show the 'show correct answer' button
+       *   correctResponse: { value: true|false }
+       * }
+       * ```
+       */
+      state: {type: Object, value: { model: {}}, observer: '_onStateChanged'},
+      /**
+       * A user's interaction with the component.
+       */
+      session: {type:Object, value: {selected: null}, observer: '_onSessionChanged'},
       _showCorrectResponse: {type: Boolean, value: false},
       _viewModel: {type: Object, value: {}}
     },
     observers: [
-      'onCorrectnessChange(state.correctness)',
-      'onSelectedChange(session.selected)'
+      '_onCorrectnessChange(state.correctness)',
+      '_onSelectedChange(session.selected)'
     ],
-    onStateChanged: function(n,o){
-      this.updateViewModel(this.state, this.session);
+    _onStateChanged: function(n,o){
+      this._updateViewModel(this.state, this.session);
     },
-    onSessionChanged: function(n,o){
-      this.updateViewModel(this.state, this.session);
+    _onSessionChanged: function(n,o){
+      this._updateViewModel(this.state, this.session);
     },
-    updateViewModel: function(state, session){
-      console.log('updateViewModel');
+    _updateViewModel: function(state, session){
       var m = {
         selected: session ? session.selected : null,
         correctness: state ? state.correctness : null
       }
-      this.viewModel = m;
-      this.onSelectedChange(this.viewModel.selected);
+      this._viewModel = m;
+      this._onSelectedChange(this._viewModel.selected);
     },
-    toggleShowCorrectResponse: function(e, show){
+    _toggleShowCorrectResponse: function(e, show){
       console.log(show);
       if(show){
-        this.updateViewModel({correctness: 'correct'},
+        this._updateViewModel({correctness: 'correct'},
         {selected: this.state.correctResponse.value});
       } else {
-        this.updateViewModel(this.state, this.session);
+        this._updateViewModel(this.state, this.session);
       }
     },
-    getClass: function(expected, selected, corr){
+    _getClass: function(expected, selected, corr){
       this.updateStyles();
       if(selected === expected){
         return corr;        
@@ -113,27 +130,28 @@ It's '
         return '';
       }
     },
-    falseClass: function(selected, correctness){
-      return this.getClass(false, selected, correctness);
+    _falseClass: function(selected, correctness){
+      return this._getClass(false, selected, correctness);
     },
-    trueClass: function(selected, correctness){
-      return this.getClass(true, selected, correctness);
+    _trueClass: function(selected, correctness){
+      return this._getClass(true, selected, correctness);
     },
-    onFalseChanged: function(e){
+    _onFalseChanged: function(e){
       var checked = e.target.attributes.getNamedItem('checked');
       this.session.selected = this.session.selected === false && checked === null ? null : false;
-      this.onSelectedChange(this.session.selected);
+      this._onSelectedChange(this.session.selected);
     },
-    onTrueChanged: function(e){
+    _onTrueChanged: function(e){
       var checked = e.target.attributes.getNamedItem('checked');
       this.session.selected = this.session.selected === true && checked === null ? null : true;
-      this.onSelectedChange(this.session.selected);
+      this._onSelectedChange(this.session.selected);
     },
-    onSelectedChange: function(s){
+    _onSelectedChange: function(s){
       this.$['false-button'].checked = s === false;
       this.$['true-button'].checked = s === true;
     },
-    onCorrectnessChange: function(c){
+    _onCorrectnessChange: function(c){
+      //TODO: can i get rid of this?
       setTimeout(this.updateStyles.bind(this), 0);
     }
   });
