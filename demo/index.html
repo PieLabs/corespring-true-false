@@ -12,7 +12,17 @@
         el.session = session || {};
       }
 
+
+
       document.addEventListener('DOMContentLoaded', function(){
+
+        function logSessions(){
+          document.querySelectorAll('corespring-true-false').forEach(function(e){
+            console.log(e.attributes.getNamedItem('id').value, e.session);
+          });
+          setTimeout(logSessions, 5000) ; 
+        }
+
         set('#zero', {
           model: {
             prompt: 'Active'
@@ -63,9 +73,23 @@
             disabled: true,
             correctness: 'incorrect',
           }, {selected: false});
+        
+        set('#seven', {
+            model: {
+              prompt: 'disabled, false, incorrect, with correct response'
+            },
+            correctResponse: {
+              value: true
+            },
+            disabled: true,
+            correctness: 'incorrect',
+          }, {selected: false});
 
+          logSessions();
 
         });
+
+
       </script>
 </head>
 
@@ -78,6 +102,7 @@
   <corespring-true-false id="four"></corespring-true-false>
   <corespring-true-false id="five"></corespring-true-false>
   <corespring-true-false id="six"></corespring-true-false>
+  <corespring-true-false id="seven"></corespring-true-false>
 </body>
 
 </html>

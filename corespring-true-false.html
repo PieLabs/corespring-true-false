@@ -1,179 +1,21 @@
 <link rel="import" href="../polymer/polymer.html" />
 <link rel="import" href="../paper-radio-group/paper-radio-group.html" />
 <link rel="import" href="../paper-radio-button/paper-radio-button.html" />
-<link rel="import" href="../neon-animation/neon-animation-runner-behavior.html">
-<link rel="import" href="../neon-animation/animations/slide-from-right-animation.html">
-<link rel="import" href="../neon-animation/animations/slide-from-left-animation.html">
-<link rel="import" href="../neon-animation/animations/fade-in-animation.html">
-<link rel="import" href="../neon-animation/animations/fade-out-animation.html">
+<link rel="import" href="../corespring-show-correct-answer-toggle/corespring-show-correct-answer-toggle.html" />
+<!-- 
+`corespring-true-false` is an experimental type of element.
 
-<dom-module id="corespring-show-correct-answer-toggle">
+It's '
 
-  <template>
-    <style>
-      :host{
-        display: block;
-        width: 200px;
-        height: 30px;
-        cursor: pointer;
-        -webkit-touch-callout: none; /* iOS Safari */
-        -webkit-user-select: none;   /* Chrome/Safari/Opera */
-        -khtml-user-select: none;    /* Konqueror */
-        -moz-user-select: none;      /* Firefox */
-        -ms-user-select: none;       /* Internet Explorer/Edge */
-        user-select: none;           /* Non-prefixed version, currently
-                                  not supported by any browser */
-      }
-
-      svg {
-        width: 30px;
-        float: left;
-      }
-
-      .label{
-        position: absolute;
-        left: 30px;
-        height: 30px;
-        line-height: 30px;
-        vertical-align: middle;
-      }
-
-      .show-icon-background, .hide-icon-background {
-        fill: rgba(255,0, 255, 0.4);
-      }
-
-      .correct-foreground {
-        fill: blue;
-      }
-
-      .root{
-        position: relative;
-      }
-
-      .svg-holder{
-        position: absolute;
-      }
-
-      .svg-holder > svg {
-        position: absolute;
-      }
-
-    </style>
-     <div class="root" on-click="toggle">
-       <div class="svg-holder">
-              <svg id="show-icon" preserveAspectRatio="xMinYMin meet" viewBox="-129.5 127 34 35">
-          <path style="fill:#B3ABA4;stroke:#CDC7C2;stroke-width:0.5;stroke-miterlimit:10;"
-                d="M-113.2,159c-8,0-14.5-6.5-14.5-14.5s6.5-14.5,14.5-14.5s14.5,6.5,14.5,14.5S-105.2,159-113.2,159z"/>
-          <circle class="show-icon-background"  cx="-114.2" cy="143.5" r="14"/>
-          <path class="show-icon-border"
-                d="M-114.2,158c-8,0-14.5-6.5-14.5-14.5s6.5-14.5,14.5-14.5s14.5,6.5,14.5,14.5S-106.2,158-114.2,158zM-114.2,130c-7.4,0-13.5,6.1-13.5,13.5s6.1,13.5,13.5,13.5s13.5-6.1,13.5-13.5S-106.8,130-114.2,130z"/>
-          <polygon class="show-icon-foreground"
-                  points="-114.8,150.7 -121.6,144.8 -119,141.8 -115.9,144.5 -111.3,136.3 -107.8,138.2 			"/>
-        </svg>
-
-                <svg id="hide-icon" preserveAspectRatio="xMinYMin meet" viewBox="-283 359 34 35">
-          <circle class="hide-icon-background"  cx="-266" cy="375.9" r="14"/>
-          <path class="hide-icon-background"
-                d="M-280.5,375.9c0-8,6.5-14.5,14.5-14.5s14.5,6.5,14.5,14.5s-6.5,14.5-14.5,14.5S-280.5,383.9-280.5,375.9zM-279.5,375.9c0,7.4,6.1,13.5,13.5,13.5c7.4,0,13.5-6.1,13.5-13.5s-6.1-13.5-13.5-13.5C-273.4,362.4-279.5,368.5-279.5,375.9z"/>
-          <polygon class="hide-icon-foreground"
-                  points="-265.4,383.1 -258.6,377.2 -261.2,374.2 -264.3,376.9 -268.9,368.7 -272.4,370.6 				"/>
-        </svg>
-       </div>
-
-      <div class="label"><span>{{msg}}</span></div>
-      </div>
-  </template>
-</dom-module>
-
-<script>
-  Polymer({
-    is: 'corespring-show-correct-answer-toggle', 
-    behaviors: [
-      Polymer.NeonAnimationRunnerBehavior
-    ],
-    attached: function(){
-      this.$['hide-icon'].style.opacity = 0;
-    },
-    properties: {
-      active: {type: Boolean, value: false},
-      msg: {type:String, value: 'Show correct answer' },
-      animationConfig: {
-      value: function() {
-        return {
-          'active': [
-          //   {
-          //   name: 'slide-from-right-animation',
-          //   node: this.$['hide-icon']
-          // },
-          //   {
-          //   name: 'fade-in-animation',
-          //   node: this.$['hide-icon']
-          // },
-            {
-            name: 'fade-out-animation',
-            node: this.$['show-icon']
-          },
-          {
-            name: 'slide-from-right-animation',
-            transformOrigin: '500 400%',
-            node: this.$['show-icon']
-          }
-          ],
-          'inactive': [
-            {
-              name: 'slide-from-left-animation',
-              node: this.$['show-icon']
-            },
-            {
-              name: 'fade-in-animation',
-              node: this.$['show-icon']
-            }
-
-          ] 
-        }
-      }
-    }
-    },
-    listeners: {
-      'neon-animation-finish': '_onNeonAnimationFinish',
-      'neon-animation-start': '_onNeonAnimationStart'
-    },
-    _onNeonAnimationStart: function(){
-      console.log('start...');
-      this.$['show-icon'].style.display = 'block';
-      this.$['hide-icon'].style.display = 'none';
-    },
-    _onNeonAnimationFinish: function(){
-      console.log('done');
-
-      if(this.active){
-        this.$['show-icon'].style.display = 'none';
-      } else {
-        this.$['hide-icon'].style.display = 'none';
-      }
-    },
-    animate: function(){
-      this.$['show-icon'].style.display = 'block';
-      this.$['hide-icon'].style.display = 'block';
-      var animationName = this.active ? 'active' : 'inactive';
-      console.log('animationName:', animationName);
-      this.playAnimation(animationName);
-    },
-    toggle: function(){
-      this.active = !this.active;
-      this.msg = this.active ? 'Show my answer' : 'Show correct answer';
-      this.animate();
-    }
-  });
-</script>
-
+-->
 <dom-module id="corespring-true-false">
   <template>
     <style>
 
-      :host paper-radio-button {
-        padding-left: 10px;
-      }
+    :host paper-radio-button {
+      padding-left: 10px;
+    }
+
     paper-radio-button.correct {
       --paper-radio-button-checked-color: var(--paper-green-500);
       --paper-radio-button-checked-ink-color: var(--paper-green-500);
@@ -190,42 +32,79 @@
       --paper-radio-button-label-color: var(--paper-red-500);
     }
 
+    .holder{
+      height: 25px;
+    }
+
+    corespring-show-correct-answer-toggle{
+      display: inline-block;
+      vertical-align: middle;
+      padding-left: 10px;
+      --show-correct-answer-height: 25px;
+    }
+
     </style>
-    <div>
-          <!-- //{{session.selected}}" -->
+    <div class="holder">
       <span>{{state.model.prompt}}</span>
-        <paper-radio-button 
-          id="true-button"
-          on-change="onTrueChanged"
-          class$="{{trueClass(session.selected, state.correctness)}}" 
-          disabled="{{state.disabled}}"
-          noink 
-          >true</paper-radio-button>
-        <paper-radio-button 
-          id="false-button"
-          disabled="{{state.disabled}}"
-          class$="{{falseClass(session.selected, state.correctness)}}" 
-          on-change="onFalseChanged"
-          noink 
-          name="false" 
-        >false</paper-radio-button>
+      <paper-radio-button 
+        id="true-button"
+        on-change="onTrueChanged"
+        class$="{{trueClass(viewModel.selected, viewModel.correctness)}}" 
+        disabled="{{state.disabled}}"
+        noink 
+        >true</paper-radio-button>
+      <paper-radio-button 
+        id="false-button"
+        disabled="{{state.disabled}}"
+        class$="{{falseClass(viewModel.selected, viewModel.correctness)}}" 
+        on-change="onFalseChanged"
+        noink 
+        name="false" 
+      >false</paper-radio-button>
+      <template is="dom-if" if="{{state.correctResponse}}">
+          <corespring-show-correct-answer-toggle on-toggle="toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
+      </template>
     </div>
   </template>
 </dom-module>
 <script>
 
-  
-
   Polymer({
     is: 'corespring-true-false',
     properties: {
-      state: {type: Object, value: { model: {}}},
-      session: {type:Object, value: {}}
+      state: {type: Object, value: { model: {}}, observer: 'onStateChanged'},
+      session: {type:Object, value: {}, observer: 'onSessionChanged'},
+      _showCorrectResponse: {type: Boolean, value: false},
+      _viewModel: {type: Object, value: {}}
     },
     observers: [
       'onCorrectnessChange(state.correctness)',
       'onSelectedChange(session.selected)'
     ],
+    onStateChanged: function(n,o){
+      this.updateViewModel(this.state, this.session);
+    },
+    onSessionChanged: function(n,o){
+      this.updateViewModel(this.state, this.session);
+    },
+    updateViewModel: function(state, session){
+      console.log('updateViewModel');
+      var m = {
+        selected: session ? session.selected : null,
+        correctness: state ? state.correctness : null
+      }
+      this.viewModel = m;
+      this.onSelectedChange(this.viewModel.selected);
+    },
+    toggleShowCorrectResponse: function(e, show){
+      console.log(show);
+      if(show){
+        this.updateViewModel({correctness: 'correct'},
+        {selected: this.state.correctResponse.value});
+      } else {
+        this.updateViewModel(this.state, this.session);
+      }
+    },
     getClass: function(expected, selected, corr){
       this.updateStyles();
       if(selected === expected){
@@ -241,13 +120,13 @@
       return this.getClass(true, selected, correctness);
     },
     onFalseChanged: function(e){
-      var checked = e.target.checked;
-      this.session.selected = this.session.selected === false && checked === false ? null : false;
+      var checked = e.target.attributes.getNamedItem('checked');
+      this.session.selected = this.session.selected === false && checked === null ? null : false;
       this.onSelectedChange(this.session.selected);
     },
     onTrueChanged: function(e){
-      var checked = e.target.checked;
-      this.session.selected = this.session.selected === true && checked === false ? null : true;
+      var checked = e.target.attributes.getNamedItem('checked');
+      this.session.selected = this.session.selected === true && checked === null ? null : true;
       this.onSelectedChange(this.session.selected);
     },
     onSelectedChange: function(s){
