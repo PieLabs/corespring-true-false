@@ -1,0 +1,83 @@
+<html>
+
+<head>
+  <link rel="import" href="../corespring-true-false.html" />
+
+
+  <script>
+
+      function set(id, state, session){
+        var el = document.querySelector(id);
+        el.state = state;
+        el.session = session || {};
+      }
+
+      document.addEventListener('DOMContentLoaded', function(){
+        set('#zero', {
+          model: {
+            prompt: 'Active'
+          },
+        }, {selected: null});
+
+        set('#one', {
+          model: {
+            prompt: 'Active, true'
+          },
+        }, {selected: true});
+      
+        set('#two', {
+            model: {
+              prompt: 'Active, false'
+            },
+          }, {selected: false});
+        
+        set('#three', {
+            model: {
+              prompt: 'disabled, true, correct'
+            },
+            disabled: true,
+            correctness: 'correct',
+          }, {selected: true});
+        
+        set('#four', {
+            model: {
+              prompt: 'disabled, true, incorrect'
+            },
+            disabled: true,
+            correctness: 'incorrect',
+          }, {selected: true});
+        
+        
+        set('#five', {
+            model: {
+              prompt: 'disabled, false, correct'
+            },
+            disabled: true,
+            correctness: 'correct',
+          }, {selected: false});
+        
+        set('#six', {
+            model: {
+              prompt: 'disabled, false, incorrect'
+            },
+            disabled: true,
+            correctness: 'incorrect',
+          }, {selected: false});
+
+
+        });
+      </script>
+</head>
+
+<body>
+  <corespring-show-correct-answer-toggle></corespring-show-correct-answer-toggle>
+  <corespring-true-false id="zero"></corespring-true-false>
+  <corespring-true-false id="one"></corespring-true-false>
+  <corespring-true-false id="two"></corespring-true-false>
+  <corespring-true-false id="three"></corespring-true-false>
+  <corespring-true-false id="four"></corespring-true-false>
+  <corespring-true-false id="five"></corespring-true-false>
+  <corespring-true-false id="six"></corespring-true-false>
+</body>
+
+</html>
