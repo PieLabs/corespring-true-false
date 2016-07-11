@@ -116,11 +116,13 @@
     ],
     _onStateChanged: function(n,o){
 
-      var toggleNode = this.$$['#correct-answer-toggle'];
+      this.async(function(){
+        var toggleNode = this.$$('#correct-answer-toggle');
 
-      if(toggleNode) {
-        toggleNode.reset(); 
-      }
+        if(toggleNode) {
+          toggleNode.reset(); 
+        }
+      });
 
       this.state.labels = this.state.labels || {};
       this._trueLabel = this.state.labels['true'] || 'true';
