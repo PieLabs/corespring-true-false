@@ -15,12 +15,18 @@
     :host{
       @apply(--paper-font-common-base);
       display: block;
-
     }
 
     :host paper-radio-button {
       padding-left: 10px;
       flex: 0 0 auto;
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none;   /* Chrome/Safari/Opera */
+      -khtml-user-select: none;    /* Konqueror */
+      -moz-user-select: none;      /* Firefox */
+      -ms-user-select: none;       /* Internet Explorer/Edge */
+      user-select: none;           /* Non-prefixed version, currently
+                                      not supported by any browser */
     }
 
     paper-radio-button.correct {
