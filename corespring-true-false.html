@@ -116,8 +116,10 @@
     ],
     _onStateChanged: function(n,o){
 
-      if(this.$.correctAnswerToggle){
-        this.$.correctAnswerToggle.reset(); 
+      var toggleNode = this.$['correct-answer-toggle'];
+
+      if(toggleNode) {
+        toggleNode.reset(); 
       }
 
       this.state.labels = this.state.labels || {};
