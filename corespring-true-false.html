@@ -14,13 +14,13 @@
 
     :host{
       @apply(--paper-font-common-base);
+      display: block;
+
     }
-    /*:host span {
-      @apply(--paper-font-body2);
-    }*/
 
     :host paper-radio-button {
       padding-left: 10px;
+      flex: 0 0 auto;
     }
 
     paper-radio-button.correct {
@@ -41,6 +41,8 @@
 
     .holder{
       height: 25px;
+      display: flex;
+      flex-direction: row;
     }
 
     corespring-show-correct-answer-toggle{
@@ -49,6 +51,7 @@
       padding-left: 10px;
       --show-correct-answer-height: 25px;
       @apply(--paper-font-common-base);
+      flex: 1 0 auto;
     }
 
     </style>
@@ -60,7 +63,7 @@
         class$="{{_trueClass(_viewModel.selected, _viewModel.correctness)}}" 
         disabled="{{state.disabled}}"
         noink 
-        >true</paper-radio-button>
+        >{{_trueLabel}}</paper-radio-button>
       <paper-radio-button 
         id="false-button"
         disabled="{{state.disabled}}"
@@ -68,9 +71,9 @@
         on-change="_onFalseChanged"
         noink 
         name="false" 
-      >false</paper-radio-button>
+      >{{_falseLabel}}</paper-radio-button>
       <template is="dom-if" if="{{state.correctResponse}}">
-          <corespring-show-correct-answer-toggle on-toggle="_toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
+          <corespring-show-correct-answer-toggle show-label="{{_showLabel}}" hide-label="{{_hideLabel}}" on-toggle="_toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
       </template>
     </div>
   </template>
@@ -101,13 +104,23 @@
        */
       session: {type:Object, value: {selected: null}, observer: '_onSessionChanged'},
       _showCorrectResponse: {type: Boolean, value: false},
-      _viewModel: {type: Object, value: {}}
+      _viewModel: {type: Object, value: {}},
+      _trueLabel: {type:String},
+      _falseLabel: {type:String},
+      _showLabel: {type:String},
+      _hideLabel: {type:String}
     },
     observers: [
       '_onCorrectnessChange(state.correctness)',
       '_onSelectedChange(session.selected)'
     ],
     _onStateChanged: function(n,o){
+      this.state.labels = this.state.labels || {};
+      this._trueLabel = this.state.labels['true'] || 'true';
+      this._falseLabel = this.state.labels['false'] || 'false';
+      this._showLabel = this.state.labels.show || 'Show correct answer';
+      this._hideLabel = this.state.labels.hide || 'Hide correct answer';
+
       this._updateViewModel(this.state, this.session);
     },
     _onSessionChanged: function(n,o){

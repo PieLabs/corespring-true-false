@@ -8,8 +8,10 @@
 
       function set(id, state, session){
         var el = document.querySelector(id);
-        el.state = state;
-        el.session = session || {};
+        if(el){
+          el.state = state;
+          el.session = session || {};
+        }
       }
 
       document.addEventListener('DOMContentLoaded', function(){
@@ -59,19 +61,35 @@
             disabled: true,
             correctness: 'incorrect',
           }, {selected: false});
+        set('#eight', {
+            labels: {
+              'true' : 'verdadera',
+              'false' : 'falso',
+              'show' : 'Mostrar la respuesta correcta',
+              'hide' : 'Esconder respuesta correcta'
+            },
+            prompt: 'This is a prompt...',
+            correctResponse: {
+              value: true
+            },
+            disabled: true,
+            correctness: 'incorrect',
+          }, {selected: false});
+
         });
       </script>
 </head>
 
 <body>
-  <true-false-demo id="zero"></true-false-demo>
+  <!--<true-false-demo id="zero"></true-false-demo>
   <true-false-demo id="one"></true-false-demo>
   <true-false-demo id="two"></true-false-demo>
   <true-false-demo id="three"></true-false-demo>
   <true-false-demo id="four"></true-false-demo>
   <true-false-demo id="five"></true-false-demo>
   <true-false-demo id="six"></true-false-demo>
-  <true-false-demo id="seven"></true-false-demo>
+  <true-false-demo id="seven"></true-false-demo>-->
+  <true-false-demo id="eight"></true-false-demo>
 </body>
 
 </html>
