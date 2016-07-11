@@ -60,20 +60,20 @@
       <paper-radio-button 
         id="true-button"
         on-change="_onTrueChanged"
-        class$="{{_trueClass(_viewModel.selected, _viewModel.correctness)}}" 
+        class$="{{_trueClass(_viewModel)}}" 
         disabled="{{state.disabled}}"
         noink 
         >{{_trueLabel}}</paper-radio-button>
       <paper-radio-button 
         id="false-button"
         disabled="{{state.disabled}}"
-        class$="{{_falseClass(_viewModel.selected, _viewModel.correctness)}}" 
+        class$="{{_falseClass(_viewModel)}}" 
         on-change="_onFalseChanged"
         noink 
         name="false" 
       >{{_falseLabel}}</paper-radio-button>
       <template is="dom-if" if="{{state.correctResponse}}">
-          <corespring-show-correct-answer-toggle show-label="{{_showLabel}}" hide-label="{{_hideLabel}}" on-toggle="_toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
+          <corespring-show-correct-answer-toggle id="correct-answer-toggle" show-label="{{_showLabel}}" hide-label="{{_hideLabel}}" on-toggle="_toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
       </template>
     </div>
   </template>
@@ -115,6 +115,11 @@
       '_onSelectedChange(session.selected)'
     ],
     _onStateChanged: function(n,o){
+
+      if(this.$.correctAnswerToggle){
+        this.$.correctAnswerToggle.reset(); 
+      }
+
       this.state.labels = this.state.labels || {};
       this._trueLabel = this.state.labels['true'] || 'true';
       this._falseLabel = this.state.labels['false'] || 'false';
@@ -143,19 +148,24 @@
         this._updateViewModel(this.state, this.session);
       }
     },
-    _getClass: function(expected, selected, corr){
-      this.updateStyles();
-      if(selected === expected){
-        return corr;        
-      } else {
+    _getClass: function(expected, viewModel){
+      setTimeout(this.updateStyles.bind(this), 30);
+
+      if(!viewModel){
         return '';
       }
+
+      if(viewModel.selected === expected){
+        return viewModel.correctness || '';        
+      }
+
+      return '';
     },
-    _falseClass: function(selected, correctness){
-      return this._getClass(false, selected, correctness);
+    _falseClass: function(viewModel){
+      return this._getClass(false,viewModel);
     },
-    _trueClass: function(selected, correctness){
-      return this._getClass(true, selected, correctness);
+    _trueClass: function(viewModel){
+      return this._getClass(true, viewModel);
     },
     _onFalseChanged: function(e){
       var checked = e.target.attributes.getNamedItem('checked');
