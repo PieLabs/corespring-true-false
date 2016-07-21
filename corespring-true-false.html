@@ -1,5 +1,4 @@
 <link rel="import" href="../polymer/polymer.html" />
-<!--<link rel="import" href="../paper-styles/paper-styles.html" />-->
 <link rel="import" href="../paper-styles/typography.html" />
 <link rel="import" href="../paper-radio-button/paper-radio-button.html" />
 <link rel="import" href="../corespring-show-correct-answer-toggle/corespring-show-correct-answer-toggle.html" />
@@ -15,9 +14,6 @@
     :host{
       @apply(--paper-font-common-base);
     }
-    /*:host span {
-      @apply(--paper-font-body2);
-    }*/
 
     :host paper-radio-button {
       padding-left: 10px;
@@ -53,23 +49,23 @@
 
     </style>
     <div class="holder">
-      <span>{{state.prompt}}</span>
+      <span>{{prompt}}</span>
       <paper-radio-button 
         id="true-button"
         on-change="_onTrueChanged"
         class$="{{_trueClass(_viewModel.selected, _viewModel.correctness)}}" 
-        disabled="{{state.disabled}}"
+        disabled="{{disabled}}"
         noink 
         >true</paper-radio-button>
       <paper-radio-button 
         id="false-button"
-        disabled="{{state.disabled}}"
+        disabled="{{disabled}}"
         class$="{{_falseClass(_viewModel.selected, _viewModel.correctness)}}" 
         on-change="_onFalseChanged"
         noink 
         name="false" 
       >false</paper-radio-button>
-      <template is="dom-if" if="{{state.correctResponse}}">
+      <template is="dom-if" if="{{correctResponse}}">
           <corespring-show-correct-answer-toggle on-toggle="_toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
       </template>
     </div>
@@ -80,38 +76,20 @@
   Polymer({
     is: 'corespring-true-false',
     properties: {
-
-      /**
-       * The state of the component.
-       * 
-       * ```
-       * {
-       *   //are the radio buttons disabled
-       *   disabled: true|false,
-       *   //the prompt
-       *   prompt: '...',
-       *   //if present will show the 'show correct answer' button
-       *   correctResponse: { value: true|false }
-       * }
-       * ```
-       */
+      disabled: {type: Boolean},
+      prompt: {type:String},
+      correctResponse: {type:Object},
+      correctness: {type: String, observer: '_onCorrectnessChange'},
       state: {type: Object, value: {}, observer: '_onStateChanged'},
-      /**
-       * A user's interaction with the component.
-       */
-      session: {type:Object, value: {selected: null}, observer: '_onSessionChanged'},
+      selection: {type:Boolean, value: null, observer: '_onSelectionChange'},
       _showCorrectResponse: {type: Boolean, value: false},
       _viewModel: {type: Object, value: {}}
     },
-    observers: [
-      '_onCorrectnessChange(state.correctness)',
-      '_onSelectedChange(session.selected)'
-    ],
-    _onStateChanged: function(n,o){
-      this._updateViewModel(this.state, this.session);
+    _onCorrectnessChange: function(n,o){
+      this._updateViewModel(this.correctness, this.selection);
     },
-    _onSessionChanged: function(n,o){
-      this._updateViewModel(this.state, this.session);
+    _onSelectionChange: function(n,o){
+      this._updateViewModel(this.correctness, this.selection);
     },
     _updateViewModel: function(state, session){
       var m = {

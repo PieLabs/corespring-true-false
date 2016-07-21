@@ -16,7 +16,13 @@
       }
     </style>
     <hr/>
-    <corespring-true-false session="{{session}}" state="{{state}}"></corespring-true-false>
+    <corespring-true-false 
+      disabled="{{state.disabled}}"
+      prompt="{{state.prompt}}"
+      correct-response="{{state.correctResponse}}"
+      selection="{{session.selected}}" 
+      state="{{state}}"
+      ></corespring-true-false>
     <table>
       <tr>
         <th>session</th>
