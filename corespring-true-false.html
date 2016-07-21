@@ -5,6 +5,16 @@
 <!-- 
 `corespring-true-false` is a component that contains a prompt + 2 radio buttons: true and false. 
 
+
+  ## Styling 
+
+
+  Name | description | default 
+  -----|-------------|--------
+  `--true-false-color` | ? | ? 
+  `--true-false-correct-color` | ? | ? 
+  `--true-false-incorrect-color` | ? | ? 
+
 @demo demo/index.html
 -->
 <dom-module id="corespring-true-false">
@@ -13,26 +23,32 @@
 
     :host{
       @apply(--paper-font-common-base);
+      color: var(--true-false-prompt-color, black);
     }
 
     :host paper-radio-button {
       padding-left: 10px;
+      --paper-radio-button-checked-color: var(--true-false-color, --paper-indigo-500);
+      --paper-radio-button-checked-ink-color: var(--true-false-color,--paper-indigo-500);
+      --paper-radio-button-unchecked-color: var(--true-false-color, --paper-indigo-500);
+      --paper-radio-button-unchecked-ink-color: var(--true-false-color,--paper-indigo-500);
+      --paper-radio-button-label-color: var(--true-false-color, --paper-indigo-500);
     }
 
     paper-radio-button.correct {
-      --paper-radio-button-checked-color: var(--paper-green-500);
-      --paper-radio-button-checked-ink-color: var(--paper-green-500);
-      --paper-radio-button-unchecked-color: var(--paper-green-900);
-      --paper-radio-button-unchecked-ink-color: var(--paper-green-900);
-      --paper-radio-button-label-color: var(--paper-green-500);
+      --paper-radio-button-checked-color: var(--true-false-correct-color, --paper-green-500);
+      --paper-radio-button-unchecked-color: var(--true-false-correct-color, --paper-green-500);
+      --paper-radio-button-checked-ink-color: var(--true-false-correct-color,--paper-green-500);
+      --paper-radio-button-unchecked-ink-color: var(--true-false-correct-color,--paper-green-500);
+      --paper-radio-button-label-color: var(--true-false-correct-color, --paper-green-500);
     }
 
     paper-radio-button.incorrect {
-      --paper-radio-button-checked-color: var(--paper-red-500);
-      --paper-radio-button-checked-ink-color: var(--paper-red-500);
-      --paper-radio-button-unchecked-color: var(--paper-red-900);
-      --paper-radio-button-unchecked-ink-color: var(--paper-red-900);
-      --paper-radio-button-label-color: var(--paper-red-500);
+      --paper-radio-button-checked-color: var(--true-false-incorrect-color, --paper-red-500);
+      --paper-radio-button-unchecked-color: var(--true-false-incorrect-color, --paper-red-500);
+      --paper-radio-button-checked-ink-color: var(--true-false-incorrect-color, --paper-red-500);
+      --paper-radio-button-unchecked-ink-color: var(--true-false-incorrect-color, --paper-red-500);
+      --paper-radio-button-label-color: var(--true-false-incorrect-color, --paper-red-500);
     }
 
     .holder{
