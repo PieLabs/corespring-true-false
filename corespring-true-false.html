@@ -79,21 +79,23 @@
       disabled: {type: Boolean},
       prompt: {type:String},
       correctResponse: {type:Object},
-      correctness: {type: String, observer: '_onCorrectnessChange'},
+      correctness: {type: String, value: null, observer: '_onCorrectnessChange'},
       selection: {type:Boolean, value: null, observer: '_onSelectionChange'},
       _showCorrectResponse: {type: Boolean, value: false},
       _viewModel: {type: Object, value: {}}
     },
     _onCorrectnessChange: function(n,o){
+      console.log('c: ', n, o);
       this._updateViewModel(this.correctness, this.selection);
     },
     _onSelectionChange: function(n,o){
+      console.log('s: ', n, o);
       this._updateViewModel(this.correctness, this.selection);
     },
-    _updateViewModel: function(state, session){
+    _updateViewModel: function(correctness, selection){
       var m = {
-        selected: session ? session.selected : null,
-        correctness: state ? state.correctness : null
+        selected: selection,
+        correctness: correctness 
       }
       console.log('viewModel: ' , m);
       this._viewModel = m;
@@ -102,10 +104,9 @@
     _toggleShowCorrectResponse: function(e, show){
       console.log(show);
       if(show){
-        this._updateViewModel({correctness: 'correct'},
-        {selected: this.state.correctResponse.value});
+        this._updateViewModel('correct', this.correctResponse.value);
       } else {
-        this._updateViewModel(this.state, this.session);
+        this._updateViewModel(this.correctness, this.selection);
       }
     },
     _getClass: function(expected, selected, corr){
@@ -138,7 +139,7 @@
     },
     _onCorrectnessChange: function(c){
       //TODO: can i get rid of this?
-      setTimeout(this.updateStyles.bind(this), 0);
+      // setTimeout(this.updateStyles.bind(this), 0);
     }
   });
 </script>
