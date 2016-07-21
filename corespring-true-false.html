@@ -80,7 +80,6 @@
       prompt: {type:String},
       correctResponse: {type:Object},
       correctness: {type: String, observer: '_onCorrectnessChange'},
-      state: {type: Object, value: {}, observer: '_onStateChanged'},
       selection: {type:Boolean, value: null, observer: '_onSelectionChange'},
       _showCorrectResponse: {type: Boolean, value: false},
       _viewModel: {type: Object, value: {}}
@@ -96,6 +95,7 @@
         selected: session ? session.selected : null,
         correctness: state ? state.correctness : null
       }
+      console.log('viewModel: ' , m);
       this._viewModel = m;
       this._onSelectedChange(this._viewModel.selected);
     },
@@ -124,13 +124,13 @@
     },
     _onFalseChanged: function(e){
       var checked = e.target.attributes.getNamedItem('checked');
-      this.session.selected = this.session.selected === false && checked === null ? null : false;
-      this._onSelectedChange(this.session.selected);
+      this.selection = this.selection === false && checked === null ? null : false;
+      this._onSelectedChange(this.selection);
     },
     _onTrueChanged: function(e){
       var checked = e.target.attributes.getNamedItem('checked');
-      this.session.selected = this.session.selected === true && checked === null ? null : true;
-      this._onSelectedChange(this.session.selected);
+      this.selection = this.selection === true && checked === null ? null : true;
+      this._onSelectedChange(this.selection);
     },
     _onSelectedChange: function(s){
       this.$['false-button'].checked = s === false;

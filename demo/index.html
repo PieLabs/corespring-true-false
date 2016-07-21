@@ -8,8 +8,10 @@
 
       function set(id, state, session){
         var el = document.querySelector(id);
-        el.state = state;
-        el.session = session || {};
+        if(el){
+          el.state = state;
+          el.session = session || {};
+        }
       }
 
       document.addEventListener('DOMContentLoaded', function(){
@@ -64,14 +66,14 @@
 </head>
 
 <body>
-  <true-false-demo id="zero"></true-false-demo>
+  <!--<true-false-demo id="zero"></true-false-demo>-->
   <true-false-demo id="one"></true-false-demo>
-  <true-false-demo id="two"></true-false-demo>
+  <!--<true-false-demo id="two"></true-false-demo>
   <true-false-demo id="three"></true-false-demo>
   <true-false-demo id="four"></true-false-demo>
   <true-false-demo id="five"></true-false-demo>
   <true-false-demo id="six"></true-false-demo>
-  <true-false-demo id="seven"></true-false-demo>
+  <true-false-demo id="seven"></true-false-demo>-->
 </body>
 
 </html>
