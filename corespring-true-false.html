@@ -24,6 +24,7 @@
     :host{
       @apply(--paper-font-common-base);
       color: var(--true-false-prompt-color, black);
+      display: block;
     }
 
     :host paper-radio-button {
@@ -33,6 +34,14 @@
       --paper-radio-button-unchecked-color: var(--true-false-color, --paper-indigo-500);
       --paper-radio-button-unchecked-ink-color: var(--true-false-color,--paper-indigo-500);
       --paper-radio-button-label-color: var(--true-false-color, --paper-indigo-500);
+      flex: 0 0 auto;
+      -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none;   /* Chrome/Safari/Opera */
+      -khtml-user-select: none;    /* Konqueror */
+      -moz-user-select: none;      /* Firefox */
+      -ms-user-select: none;       /* Internet Explorer/Edge */
+      user-select: none;           /* Non-prefixed version, currently
+                                      not supported by any browser */
     }
 
     paper-radio-button.correct {
@@ -53,6 +62,8 @@
 
     .holder{
       height: 25px;
+      display: flex;
+      flex-direction: row;
     }
 
     corespring-show-correct-answer-toggle{
@@ -61,6 +72,7 @@
       padding-left: 10px;
       --show-correct-answer-height: 25px;
       @apply(--paper-font-common-base);
+      flex: 1 0 auto;
     }
 
     </style>
@@ -72,7 +84,7 @@
         class$="{{_trueClass(_viewModel.selected, _viewModel.correctness)}}" 
         disabled="{{disabled}}"
         noink 
-        >true</paper-radio-button>
+        >{{trueLabel}}</paper-radio-button>
       <paper-radio-button 
         id="false-button"
         disabled="{{disabled}}"
@@ -80,9 +92,12 @@
         on-change="_onFalseChanged"
         noink 
         name="false" 
-      >false</paper-radio-button>
+      >{{falseLabel}}</paper-radio-button>
       <template is="dom-if" if="{{correctResponse}}">
-          <corespring-show-correct-answer-toggle on-toggle="_toggleShowCorrectResponse"></corespring-show-correct-answer-toggle>
+          <corespring-show-correct-answer-toggle 
+            on-toggle="_toggleShowCorrectResponse"
+            show-label="{{showLabel}}"
+            hide-label="{{hideLabel}}"></corespring-show-correct-answer-toggle>
       </template>
     </div>
   </template>
@@ -98,14 +113,22 @@
       correctness: {type: String, value: null, observer: '_onCorrectnessChange'},
       selection: {type:Boolean, value: null, observer: '_onSelectionChange'},
       _showCorrectResponse: {type: Boolean, value: false},
-      _viewModel: {type: Object, value: {}}
+      _viewModel: {type: Object, value: {}},
+      trueLabel: {type:String, value: 'true'},
+      falseLabel: {type:String, value: 'false', observer: '_onFalseLabelChanged'},
+      showLabel: {type:String},
+      hideLabel: {type:String}
+    },
+    _onFalseLabelChanged(n, o){
+      console.log('on false changed', n);
+      if(n === undefined){
+        this.falseLabel = 'false';
+      }
     },
     _onCorrectnessChange: function(n,o){
-      console.log('c: ', n, o);
       this._updateViewModel(this.correctness, this.selection);
     },
     _onSelectionChange: function(n,o){
-      console.log('s: ', n, o);
       this._updateViewModel(this.correctness, this.selection);
     },
     _updateViewModel: function(correctness, selection){
@@ -113,7 +136,6 @@
         selected: selection,
         correctness: correctness 
       }
-      console.log('viewModel: ' , m);
       this._viewModel = m;
       this._onSelectedChange(this._viewModel.selected);
     },
@@ -125,19 +147,23 @@
         this._updateViewModel(this.correctness, this.selection);
       }
     },
-    _getClass: function(expected, selected, corr){
-      this.updateStyles();
+    _getClass: function(expected, selected, correctness){
+      setTimeout(this.updateStyles.bind(this), 30);
+      
+
+      console.log('getClass', expected, selected, correctness);
+
       if(selected === expected){
-        return corr;        
-      } else {
-        return '';
+        return correctness || '';        
       }
+
+      return '';
     },
     _falseClass: function(selected, correctness){
-      return this._getClass(false, selected, correctness);
+      return this._getClass(false,selected, correctness);
     },
     _trueClass: function(selected, correctness){
-      return this._getClass(true, selected, correctness);
+      return this._getClass(true,selected, correctness); 
     },
     _onFalseChanged: function(e){
       var checked = e.target.attributes.getNamedItem('checked');

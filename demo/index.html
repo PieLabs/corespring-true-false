@@ -62,6 +62,21 @@
             disabled: true,
             correctness: 'incorrect',
           }, {selected: false});
+        set('#eight', {
+            labels: {
+              'true' : 'verdadera',
+              'false' : 'falso',
+              'show' : 'Mostrar la respuesta correcta',
+              'hide' : 'Esconder respuesta correcta'
+            },
+            prompt: 'This is a prompt...',
+            correctResponse: {
+              value: true
+            },
+            disabled: true,
+            correctness: 'incorrect',
+          }, {selected: false});
+
         });
       </script>
 </head>
@@ -75,6 +90,7 @@
   <true-false-demo id="five"></true-false-demo>
   <true-false-demo id="six"></true-false-demo>
   <true-false-demo clazz="styled" id="seven"></true-false-demo>
+  <true-false-demo id="eight"></true-false-demo>
 </body>
 
 </html>

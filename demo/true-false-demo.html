@@ -25,7 +25,7 @@
 
     </style>
     <hr/>
-    <corespring-true-false 
+    <corespring-true-false id="component" 
       disabled="{{state.disabled}}"
       selection="{{session.selected}}" 
       correctness="{{state.correctness}}"
@@ -59,7 +59,18 @@
     onSession: function(n){
       this.$.sessionRaw.innerHTML = JSON.stringify(n, null, '  ');
     }, 
+    _setLabel: function(compKey, labelKey){
+      if(this.state && this.state.labels && this.state.labels[labelKey]){
+        this.$.component.notifyPath(compKey, this.state.labels[labelKey], true);
+      }
+    },
     onState: function(n){
+
+      this._setLabel('trueLabel', 'true');
+      this._setLabel('falseLabel', 'false');
+      this._setLabel('showLabel', 'show');
+      this._setLabel('hideLabel', 'hide');
+      
       this.$.stateRaw.innerHTML = JSON.stringify(n, null, '  ');
     },
   })
