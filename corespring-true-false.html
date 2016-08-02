@@ -111,7 +111,7 @@
       prompt: {type:String},
       correctResponse: {type:Object, observer: '_onCorrectResponseChange'},
       correctness: {type: String, notify: true, observer: '_onCorrectnessChange'},
-      selection: {type:Boolean, observer: '_onSelectionChange'},
+      selection: {type:Boolean, observer: '_onSelectionChange', notify: true},
       _showCorrectResponse: {type: Boolean, value: false},
       _viewModel: {type: Object, value: {}},
       trueLabel: {type:String, value: 'true'},
